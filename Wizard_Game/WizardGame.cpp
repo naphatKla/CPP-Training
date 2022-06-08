@@ -75,7 +75,7 @@ int main() {
     int max, min;
     int guessing_num;
     string answer;
-    bool restartGame;
+    bool restartGame = true;
     while(restartGame) {
         titleCreate("Wizard_Game",'=',20);
         min = integer_validation(" Enter minimum number to guess: ");
@@ -126,9 +126,13 @@ int main() {
             answer = answer_validation(" Do you want to play again [y/n]?\n ");
             if(answer == "y") {
                 restartGame = true;
+                cout << endl;
+                break;
             }
             else if(answer == "n") {
                 restartGame = false;
+                titleCreate("Good bye!",'-',20);
+                break;
             } 
             else  {
                 cout << " Answer is not correct!!!\n";
