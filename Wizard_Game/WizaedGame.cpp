@@ -1,143 +1,138 @@
 #include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
 #include <conio.h>
 using namespace std;
 
-int int_validation(string Text = "Enter number: ")
-{
-    float num_float;
-    int num_output;
-    while (true)
-    {
-        cout << Text;
-        cin >> num_float;
-        num_output = num_float;
-
-        if (cin.fail() || num_float != num_output)
-        {
-            cout << "\nInput only integer number!!!!!\n\n";
-            cin.clear();
-            cin.ignore(80, '\n');
-        }
-        else
-        {
-            break;
-        }
+void lineCreate(char line, int line_time) // function ปริ้นเส้นตามจำนวนที่ป้อน 
+{                                         // parameter (ชิ้นเส้น, จำนวนเส้น)
+    for(int i = 0; i < line_time; i++) {
+        cout << line;
     }
-    return num_output;
 }
 
-int main()
-{
-    int min;
-    int max;
+void titleCreate(string title, char line, int line_time) // fuction สร้างหัวข้อ
+{                                                       // parameter (หัวข้อ, ชิ้นเส้น, จำนวนเส้น)
+    lineCreate(line, line_time);
+    cout << " " << title << " ";
+    lineCreate(line, line_time);
+    cout << endl << endl;
+}
+
+int integer_validation(string text) // function รับข้อมูล แล้วลูปจนกว่าจะป้อนจำนวนเต็มเข้ามา
+{                                   // parameter (คำที่จะแสดง)
+    string input;
+    string temp;
     int result;
-    char input;
-    char ans_resetgame = 'y';
+    bool check;
 
-    while (ans_resetgame == 'y' || ans_resetgame == 'Y')
-    {
-        cout << "\n\n ================================= Number of Wizard Game =================================\n\n";
-        while (true)
-        {
-            min = int_validation(" Enter minimum number: ");
-            max = int_validation(" Enter maximum number: ");
-            if (min > max)
-            {
-                cout << "\n !!! Error !!!\n";
-                cout << " !!! maximun value must more than minimum value !!! .....\n\n";
+    while(true) {
+        check = true;
+        cout << text;
+        cin >> input;
+
+        for(int i = 0; i < input.length(); i++) { // check input ว่าเป็นตัวเลขทุกตัวไหม
+            if(input[i] <= '9' && input[i] >= '0') {
+                temp += input[i];
             }
-            else
-            {
+            else {
+                check = false;
+                cout << " Invalid Input! Please enter an integer number. Please try again!\n\n";
                 break;
             }
         }
-        cout << ("\n\n ------------------------------------------------------------------------------------------------------------\n\n");
-        cout << " Min is: " << min << "\n";
-        cout << " Max is: " << max << "\n\n";
 
-        cout << " *** Please select your number between " << min << " and " << max << " and keep it in your mind. *** \n\n Press 'Enter' to start ...\n";
-        getch(); // press any key
-
-        cout << " ... Start guessing ...\n\n";
-        for (int i = 1; i > 0; i++)
-        {
-            result = (min + max) / 2;
-            cout << "\n\n =========================================================================================================\n\n";
-            cout << " Round: " << i;
-            cout << "\n Guessing number is: " << result;
-            cout << "\n Is your number higher or lower than " << result << " ?";
-            cout << "\n\n Please enter value by press key !!\n 'H' for higher \n 'L' for lower \n 'C' for correct guessing\n";
-            input = getch();
-            if (input == 'c' || input == 'C')
-            {
-                cout << "\n Hooray, my guess is correct.\n";
-                break;
-            }
-            else if (input == 'h' || input == 'H')
-            {
-                cout << "\n Aww my guess is too low.";
-                min = result;
-            }
-            else if (input == 'l' || input == 'L')
-            {
-                cout << "\n Oops my guess is too high";
-                max = result;
-            }
-            else
-            {
-                cout << "\n **** You input wrong key !!!! ****";
-
-                while (true)
-                {
-                    cout << "\n\n Please enter value by press key !!\n 'H' for higher \n 'L' for lower \n 'C' for correct guessing\n";
-                    input = getch();
-                    if (input == 'c' || input == 'C')
-                    {
-                        cout << "\n Hooray, my guess is correct.\n";
-                        i = -1;
-                        break;
-                    }
-                    else if (input == 'h' || input == 'H')
-                    {
-                        cout << "\n Aww my guess is too low.";
-                        min = result;
-                        break;
-                    }
-                    else if (input == 'l' || input == 'L')
-                    {
-                        cout << "\n Oops my guess is too high";
-                        max = result;
-                        break;
-                    }
-                    else
-                    {
-                        cout << "\n **** You input wrong key !!!! ****";
-                    }
-                }
-            }
+        if(check) {
+            return result = stoi(temp); // stoi คือแปลง string -> integer
         }
-        cout << ("\n\n ------------------------------------------------------------------------------------------------------------\n\n");
-        cout << " Do you want to play again? [y/n] ...\n";
-        ans_resetgame = getch();
+    }
+}
 
-        if (ans_resetgame != 'n' && ans_resetgame != 'N' && ans_resetgame != 'y' && ans_resetgame != 'Y')
-        {
-            while (true)
-            {
-                cout << "You press the wrong key !!!\n";
-                cout << "Please press only y or n [yes / no]\n";
-                ans_resetgame = getch();
-                if (ans_resetgame == 'n' || ans_resetgame == 'N' || ans_resetgame == 'y' || ans_resetgame == 'Y')
-                {
+void PressEnter() { // ลูปรับปุ่ม จนกว่า user จะกด enter
+    cout << " Press Enter to continue guessing number ...";
+    while(getch() != 13) {  // 13 คือ id ของปุ่ม enter ได้มาจากการ cout << getch(); มันจะแสดง id ของปุ่มที่เรากดออกมา
+        cout << "\n Press Enter to continue guessing number ...";
+    }
+}
+
+string answer_validation(string text) { // function กรองคำตอบของ user ให้เป็น 1 ตัวอักษรและ non-case-sensitive
+    string answer;                      // และที่ใช้เป็น string เพราะครอบคลุมคำตอบ user มากกว่า char
+    while(true) {
+        cout << text;
+        cin >> answer;
+        if(answer.length() == 1) {
+            answer = tolower(answer[0]);
+            return answer;
+        }
+        else {
+            cout << " Answer is not correct!!!\n";
+        }
+    }
+}
+
+int main() {
+    int max, min;
+    int guessing_num;
+    string answer;
+    bool restartGame;
+    while(restartGame) {
+        titleCreate("Wizard_Game",'=',20);
+        min = integer_validation(" Enter minimum number to guess: ");
+        max = integer_validation(" Enter maximum number to guess: ");
+        
+        while(max < min) { // ถ้า max น้อยกว่า min ให้มาวนลูปใส่ค่าใหม่
+            cout << " Max must more than min !!!\n\n";
+            min = integer_validation(" Enter minimum number to guess: ");
+            max = integer_validation(" Enter maximum number to guess: ");
+        }
+
+        cout << " *pick a number between " << min << " and " << max << " and keep in your mind...*\n";
+        PressEnter();
+        cout << endl << endl;
+        titleCreate("Start Number Guessing",'.',5);
+        cout << endl << endl;
+
+        for(int i = 1; answer != "c"; i++) { // ลูปทายตัวเลข
+            guessing_num = (min + max) / 2;
+            cout << " Round " << i << ": Guessing Number is " << guessing_num << endl;
+            cout << " Is your number Higher or Lower than " << guessing_num << "?\n";
+
+            while(true) { // ลูปรับค่า จาก user หากป้อนคำตอบผิด
+                answer = answer_validation(" Enter 'h' for higher, 'l' for lower, and 'c' for correct guessing number: ");
+
+                if(answer == "l") {
+                    max = guessing_num;
+                    cout << " =Opps, my guess is too high.\n\n";
                     break;
                 }
+                else if(answer == "h") {
+                    min = guessing_num;
+                    cout << " =Aww, my guess is too low.\n\n";
+                    break;
+                }
+                else if(answer == "c") {
+                    cout << " *Hooray, my guess is correct!...Yes!\n";
+                    cout << " It took " << i << " rounds to get the correct answer.\n\n";
+                    break;
+                }
+                else {
+                    cout << " Answer is not correct!!!\n";
+                }
             }
         }
-        if (ans_resetgame == 'n' || ans_resetgame == 'N')
-        {
-            cout << "\n\n ==========================>>>>>>>  OK.Thank for playing game XD  <<<<<<<==========================\n\n";
-            cout << " Closing game ...\n\n";
+        
+        while(true) {
+            answer = answer_validation(" Do you want to play again [y/n]?\n ");
+            if(answer == "y") {
+                restartGame = true;
+            }
+            else if(answer == "n") {
+                restartGame = false;
+            } 
+            else  {
+                cout << " Answer is not correct!!!\n";
+            }
         }
-        cout << "\n\n";
     }
 }
