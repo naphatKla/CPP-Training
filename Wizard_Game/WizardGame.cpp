@@ -43,9 +43,8 @@ int integer_validation(string text) // function รับข้อมูล แ�
             }
         }
 
-        if(check) {
+        if(check)
             return result = stoi(temp); // stoi คือแปลง string -> integer
-        }
     }
 }
 
@@ -65,9 +64,8 @@ string answer_validation(string text) { // function กรองคำตอบ�
             answer = tolower(answer[0]);
             return answer;
         }
-        else {
+        else
             cout << " Answer is not correct!!!\n";
-        }
     }
 }
 
@@ -116,9 +114,8 @@ int main() {
                     cout << " It took " << i << " rounds to get the correct answer.\n\n";
                     break;
                 }
-                else {
+                else
                     cout << " Answer is not correct!!!\n";
-                }
             }
         }
         
@@ -134,9 +131,8 @@ int main() {
                 titleCreate("Good bye!",'-',20);
                 break;
             } 
-            else  {
+            else  
                 cout << " Answer is not correct!!!\n";
-            }
         }
     }
 }
